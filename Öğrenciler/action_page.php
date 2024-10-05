@@ -1,37 +1,31 @@
 <?php
 session_start();
-include('db_connect.php'); // Database connection
+include('db_connect.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Grab form data
     $username = $_POST['uname'];
     $password = $_POST['psw'];
 
-    // Prepare SQL query
-    $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-    $stmt = $conn->prepare($sql);
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows == 1) {
-        // User authenticated
         $user = $result->fetch_assoc();
         $_SESSION['username'] = $user['username'];
-        $_SESSION['role'] = $user['role']; // Could be student, teacher, etc.
+        $_SESSION['role'] = $user['role'];
 
-        // Redirect based on role or username
         if ($_SESSION['role'] == 'student') {
             header("Location: student_portfolio.php");
-        } elseif ($_SESSION['role'] == 'teacher') {
+        }
+        elseif ($_SESSION['role'] == 'teacher') {
             header("Location: teacher_dashboard.php");
         } else {
-            header("Location: generic_dashboard.php");
+            echo "Bilinmeyen rol";
         }
-        exit;
     } else {
-        // Invalid credentials
-        echo "Invalid username or password";
+        echo "Geçersiz kullanıcı adı veya şifre.";
     }
 }
 ?>
