@@ -1,7 +1,9 @@
 <?php
+// db_connect.php
+
 $servername = "localhost";
-$username = "root";
-$password = "";
+$username = "school_user";
+$password = "secure_password"; // Replace with your actual password
 $dbname = "school_management";
 
 // Create connection
