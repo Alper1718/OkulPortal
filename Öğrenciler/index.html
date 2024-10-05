@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Giriş Yap</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <form action="action_page.php" method="post">
         <div class="imgcontainer">
-          <img src="okul.jpg" alt="okullogo" class="avatar"/>
+            <img src="okul.jpg" alt="Okul Logosu" class="avatar"/>
         </div>
         <div class="elementler">
-          <label for="uname"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="uname" required>
-      
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="psw" required>
-      
-          <button type="submit">Login</button>
-          <label>
-            <input type="checkbox" checked="checked" name="remember"> Remember me
-          </label>
+            <label for="uname"><b>Kullanıcı Adı</b></label>
+            <input type="text" placeholder="Kullanıcı Adı Giriniz" name="uname" required>
+        
+            <label for="psw"><b>Şifre</b></label>
+            <input type="password" placeholder="Şifre Giriniz" name="psw" required>
+        
+            <button type="submit">Giriş Yap</button>
+            <label>
+                <input type="checkbox" checked="checked" name="remember"> Beni Hatırla
+            </label>
         </div>
-      
+    
         <div class="container" style="background-color:#f1f1f1">
-          <button type="button" class="cancelbtn">Cancel</button>
-          <span class="psw">Forgot <a href="#">password?</a></span>
+            <button type="button" class="cancelbtn">İptal</button>
+            <span class="psw">Şifrenizi mi unuttunuz? <a href="#">Buraya tıklayın</a></span>
         </div>
-      </form> 
+    </form> 
 </body>
 </html>
