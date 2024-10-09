@@ -1,7 +1,6 @@
 <?php
 session_start();
 if (!isset($_SESSION['username']) || $_SESSION['role'] != 'student') {
-    // Redirect to login page if not logged in or not a student
     header("Location: index.html");
     exit;
 }
@@ -21,16 +20,20 @@ $class = $user_data['class'];
 $today = date('Y-m-d');
 
 // Fetch assignments for the student's class that are not expired
-$stmt = $conn->prepare("SELECT title, description, due_date FROM assignments WHERE class = ? AND due_date >= ?");
+$stmt = $conn->prepare("
+    SELECT assignments.title, assignments.description, assignments.due_date, users.username AS teacher
+    FROM assignments
+    JOIN users ON assignments.created_by = users.username
+    WHERE assignments.class = ? AND assignments.due_date >= ?
+");
 $stmt->bind_param("ss", $class, $today);
 $stmt->execute();
 $assignments = $stmt->get_result();
 
-// Fetch school broadcasts (optional)
-$stmt = $conn->prepare("SELECT broadcasts FROM student_portfolio WHERE username = ?");
-$stmt->bind_param("s", $username);
+// Fetch global school broadcasts
+$stmt = $conn->prepare("SELECT content, created_at FROM global_broadcasts ORDER BY created_at DESC");
 $stmt->execute();
-$broadcasts = $stmt->get_result()->fetch_assoc()['broadcasts'];
+$global_broadcasts = $stmt->get_result();
 
 ?>
 <!DOCTYPE html>
@@ -53,7 +56,6 @@ $broadcasts = $stmt->get_result()->fetch_assoc()['broadcasts'];
             background-color: #f1f1f1;
             padding: 10px;
             margin: 5px 0;
-            border-left: 5px solid #04AA6D;
         }
     </style>
 </head>
@@ -63,10 +65,10 @@ $broadcasts = $stmt->get_result()->fetch_assoc()['broadcasts'];
     <h2>Ödevleriniz:</h2>
     <ul>
     <?php
-    // Display assignments
     if ($assignments->num_rows > 0) {
         while ($row = $assignments->fetch_assoc()) {
-            echo "<li><strong>" . htmlspecialchars($row['title']) . "</strong>: " . htmlspecialchars($row['description']) . " (Son Tarih: " . htmlspecialchars($row['due_date']) . " )</li>";
+            echo "<li><strong>" . htmlspecialchars($row['title']) . "</strong>: " . htmlspecialchars($row['description']) . 
+            " (Son Tarih: " . htmlspecialchars($row['due_date']) . ") - Ödevi Veren Öğretmen: " . htmlspecialchars($row['teacher']) . "</li>";
         }
     } else {
         echo "<li>Mevcut ödev yok.</li>";
@@ -74,16 +76,19 @@ $broadcasts = $stmt->get_result()->fetch_assoc()['broadcasts'];
     ?>
     </ul>
 
-    <h2>Okul Duyuruları:</h2>
-    <p>
+    <h2>Okul Genel Duyuruları:</h2>
+    <ul>
     <?php
-    // Display school broadcasts
-    if (!empty($broadcasts)) {
-        echo nl2br(htmlspecialchars($broadcasts));
+    // Display global broadcasts
+    if ($global_broadcasts->num_rows > 0) {
+        while ($row = $global_broadcasts->fetch_assoc()) {
+            echo "<li>" . htmlspecialchars($row['content']) . " (Yayınlandığı Tarih: " . htmlspecialchars($row['created_at']) . ")</li>";
+        }
     } else {
-        echo "Henüz duyuru yok.";
+        echo "<li>Henüz duyuru yok.</li>";
     }
     ?>
+    </ul>
     </p>
 </body>
 </html>
