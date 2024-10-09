@@ -21,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         elseif ($_SESSION['role'] == 'teacher') {
             header("Location: teacher_dashboard.php");
-        } else {
-            echo "Bilinmeyen rol";
+        } elseif ($_SESSION['role'] == 'admin') {
+            header("Location: schoolbroadcast.php");
         }
     } else {
         echo "Geçersiz kullanıcı adı veya şifre.";
