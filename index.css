@@ -1,0 +1,70 @@
+/* General Styles for Login Page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0;
+}
+
+img.avatar {
+    width: 150px;
+    border-radius: 50%;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #04AA6D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #038C59;
+}
+
+.cancelbtn {
+    background-color: #f44336;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.cancelbtn:hover {
+    background-color: #da190b;
+}
+
+input[type="checkbox"] {
+    margin: 10px 0;
+}
+
+span.psw {
+    float: right;
+    margin-top: 10px;
+}
